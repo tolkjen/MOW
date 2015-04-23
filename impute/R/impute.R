@@ -1,5 +1,22 @@
 impute <- function(x, ...) UseMethod("impute")
 
+inject.na <- function(data, p, skip=NULL) {
+  col_skip <- as.vector(skip)
+  
+  get_value <- Vectorize(function(x, colname) { 
+    if (runif(1) <= p && !(colname %in% col_skip))
+      NA
+    else
+      x
+  })
+  
+  col_list <- c(sapply(names(data), function(colname) {
+    list(get_value(as.vector(data[[colname]]), colname))
+  }))
+  
+  data.frame(col_list, row.names=seq(nrow(data)))
+}
+
 impute.default <- function(data, mcont="mean", mnom="mode", ...) {
   mean_model <- function(x) { 
     mean(x[!is.na(x)]) 
