@@ -16,10 +16,8 @@ inject.na <- function(data, p, skip="Class")
   data.frame(col_list, row.names=seq(nrow(data)))
 }
 
-impute <- function(x, ...) UseMethod("impute")
-
-impute.default <- function(data, method.cont="mean", method.nom="mode", backup.cont="mean", 
-                           backup.nom="mode", args.nom=NULL, args.cont=NULL, ...) {
+impute <- function(data, method.cont="mean", method.nom="mode", backup.cont="mean", 
+                           backup.nom="mode", args.nom=NULL, args.cont=NULL) {
   mean_model <- function(x, colname) { 
     mean(x[!is.na(x)]) 
   }
@@ -114,7 +112,7 @@ print.impute.model <- function(x, ...)
   }  
 }
 
-classpredict <- function(x, ...) UseMethod("classpredict")
+classpredict <- function(model, data, ...) UseMethod("classpredict")
 
 classpredict.default <- function(model, data, ...) {
   predict(model, data, ...)
