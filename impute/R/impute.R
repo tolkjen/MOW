@@ -155,7 +155,7 @@ predict.impute.model <- function(object, newdata=NULL, ...) {
         
         # If the model is a simple value, assign it to the cell. Otherwise 
         # take the current row and predict the value.
-        if (class(model) %in% c("numeric", "character"))
+        if (class(model) %in% c("numeric", "character", "integer", "double"))
           data[i,j] <- model
         else {
           prediction <- classpredict(model, data[i,])
